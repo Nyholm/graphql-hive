@@ -160,7 +160,7 @@ export function useHive(clientOrOptions: HiveClient | HivePluginOptions): Apollo
   void hive.info();
 
   return {
-    requestDidStart(context) {
+    async requestDidStart(context) {
       // `overallCachePolicy` does not exist in v0
       const isLegacyV0 = !('overallCachePolicy' in context);
       // `context` does not exist in v4, it is `contextValue` instead
@@ -181,6 +181,30 @@ export function useHive(clientOrOptions: HiveClient | HivePluginOptions): Apollo
         ),
         variableValues: context.request.variables,
       };
+
+      if (hive.persistedDocuments) {
+        if (
+          context.request.http?.body &&
+          typeof context.request.http.body === 'object' &&
+          'documentId' in context.request.http.body &&
+          typeof context.request.http.body.documentId === 'string'
+        ) {
+          const document = await hive.persistedDocuments.resolve(
+            context.request.http.body.documentId,
+          );
+          context.request.query = document ?? undefined;
+        } else if (
+          false ===
+          (await hive.persistedDocuments.allowArbitraryDocuments({
+            headers: {
+              get(name: string) {
+                return context.request.http?.headers?.get(name) ?? null;
+              },
+            },
+          }))
+        ) {
+        }
+      }
 
       if (isLegacyV0) {
         return {

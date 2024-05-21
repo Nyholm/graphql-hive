@@ -1,7 +1,12 @@
 import type { ExecutionArgs } from 'graphql';
+import type { PromiseOrValue } from 'graphql/jsutils/PromiseOrValue.js';
 import type { AgentOptions } from './agent.js';
 import type { autoDisposeSymbol, hiveClientSymbol } from './client.js';
 import type { SchemaReporter } from './reporting.js';
+
+type HeadersObject = {
+  get(name: string): string | null;
+};
 
 export interface HiveClient {
   [hiveClientSymbol]: true;
@@ -15,6 +20,10 @@ export interface HiveClient {
   createInstrumentedExecute(executeImpl: any): any;
   createInstrumentedSubscribe(executeImpl: any): any;
   dispose(): Promise<void>;
+  persistedDocuments: null | {
+    resolve(documentId: string): Promise<string | null>;
+    allowArbitraryDocuments(context: { headers?: HeadersObject }): PromiseOrValue<boolean>;
+  };
 }
 
 export type AsyncIterableIteratorOrValue<T> = AsyncIterableIterator<T> | T;
@@ -204,6 +213,18 @@ export type HivePluginOptions = OptionalWhenFalse<
      * Yoga / Envelop: Enabled by default for SIGINT and SIGTERM signals
      */
     autoDispose?: boolean | NodeJS.Signals[];
+    /** Persisted operations configuration. */
+    persistedDocuments?: {
+      accessToken: string;
+      endpoint: string;
+      /**
+       * whether arbitrary documents should be allowed along-side persisted documents
+       * @default false
+       */
+      allowArbitraryDocuments:
+        | boolean
+        | ((context: { headers?: HeadersObject }) => PromiseOrValue<boolean>);
+    };
   },
   'enabled',
   'token'

@@ -4,6 +4,7 @@ import {
   type GraphQLSchema,
   type subscribe as SubscribeImplementation,
 } from 'graphql';
+import LRU from 'tiny-lru';
 import { version } from '../version.js';
 import { http } from './http-client.js';
 import { createReporting } from './reporting.js';
@@ -201,6 +202,8 @@ export function createHive(options: HivePluginOptions): HiveClient {
     };
   }
 
+  const persistedDocumentsCache = LRU<string>(1000);
+
   return {
     [hiveClientSymbol]: true,
     [autoDisposeSymbol]: options.autoDispose ?? true,
@@ -211,6 +214,38 @@ export function createHive(options: HivePluginOptions): HiveClient {
     collectSubscriptionUsage: usage.collectSubscription,
     createInstrumentedSubscribe,
     createInstrumentedExecute,
+    persistedDocuments: options.persistedDocuments
+      ? {
+          allowArbitraryDocuments:
+            typeof options.persistedDocuments.allowArbitraryDocuments === 'boolean'
+              ? () => options.persistedDocuments!.allowArbitraryDocuments as boolean
+              : options.persistedDocuments.allowArbitraryDocuments,
+          async resolve(documentId: string) {
+            if (!options.persistedDocuments) {
+              throw new Error('Hive is not configured to resolve persisted operations.');
+            }
+
+            const document = persistedDocumentsCache.get(documentId);
+
+            if (document) {
+              return document;
+            }
+
+            const response = await fetch(options.persistedDocuments.endpoint + '/' + documentId, {
+              method: 'GET',
+              headers: {
+                'X-Hive-CDN-Key': options.persistedDocuments.accessToken,
+              },
+            });
+
+            if (response.status !== 200) {
+              return null;
+            }
+            const txt = await response.text();
+            return txt;
+          },
+        }
+      : null,
   };
 }
 
