@@ -174,6 +174,7 @@ export interface Organization {
   getStarted: OrganizationGetStarted;
   featureFlags: {
     compareToPreviousComposableVersion: boolean;
+    appDeployments: boolean;
   };
   zendeskId: string | null;
 }

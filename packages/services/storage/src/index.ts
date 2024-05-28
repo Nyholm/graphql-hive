@@ -4823,6 +4823,8 @@ const decodeCDNAccessTokenRecord = (result: unknown): CDNAccessToken => {
 const FeatureFlagsModel = zod
   .object({
     compareToPreviousComposableVersion: zod.boolean().default(false),
+    /** whether app deployments are enabled for the given organization */
+    appDeployments: zod.boolean().default(false),
   })
   .optional()
   .nullable()
@@ -4831,6 +4833,7 @@ const FeatureFlagsModel = zod
     val =>
       val ?? {
         compareToPreviousComposableVersion: false,
+        appDeployments: false,
       },
   );
 

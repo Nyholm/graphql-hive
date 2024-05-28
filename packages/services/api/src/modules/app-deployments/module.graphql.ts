@@ -89,7 +89,7 @@ export default gql`
 
   type CreateAppDeploymentError implements Error {
     message: String!
-    details: CreateAppDeploymentErrorDetails!
+    details: CreateAppDeploymentErrorDetails
   }
 
   type CreateAppDeploymentOk {
