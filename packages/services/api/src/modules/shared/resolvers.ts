@@ -15,10 +15,4 @@ export const resolvers: SharedModule.Resolvers = {
   JSON: JSONResolver,
   JSONSchemaObject: JSONResolver,
   SafeInt: SafeIntResolver,
-  Query: {
-    noop: () => true,
-  },
-  Mutation: {
-    noop: () => true,
-  },
 };
