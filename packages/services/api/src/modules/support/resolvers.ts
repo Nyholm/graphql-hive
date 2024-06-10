@@ -12,15 +12,6 @@ export const resolvers: SupportModule.Resolvers & {
   };
 } = {
   Mutation: {
-    async supportTicketCreate(_, { input }, { injector }) {
-      const organizationId = await injector.get(IdTranslator).translateOrganizationId(input);
-      const response = await injector.get(SupportManager).createTicket({
-        organizationId,
-        ...input,
-      });
-
-      return response;
-    },
     async supportTicketReply(_, { input }, { injector }) {
       const organizationId = await injector.get(IdTranslator).translateOrganizationId(input);
       const response = await injector.get(SupportManager).replyToTicket({
