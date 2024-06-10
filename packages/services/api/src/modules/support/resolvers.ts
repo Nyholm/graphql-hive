@@ -1,4 +1,3 @@
-import { IdTranslator } from '../shared/providers/id-translator';
 import { SupportModule } from './__generated__/types';
 import { SupportTicketPriority, SupportTicketStatus } from './../../shared/entities';
 import { SupportManager } from './providers/support-manager';
@@ -11,17 +10,6 @@ export const resolvers: SupportModule.Resolvers & {
     [K in SupportModule.SupportTicketStatus]: SupportTicketStatus;
   };
 } = {
-  Mutation: {
-    async supportTicketReply(_, { input }, { injector }) {
-      const organizationId = await injector.get(IdTranslator).translateOrganizationId(input);
-      const response = await injector.get(SupportManager).replyToTicket({
-        organizationId,
-        ...input,
-      });
-
-      return response;
-    },
-  },
   Organization: {
     async supportTickets(org, args, { injector }) {
       const response = await injector.get(SupportManager).getTickets(org.id);
