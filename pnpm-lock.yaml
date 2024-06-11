@@ -59,8 +59,8 @@ importers:
         specifier: 2.27.5
         version: 2.27.5
       '@eddeee888/gcg-typescript-resolver-files':
-        specifier: 0.0.0-pr293-run537-1-20240610024105
-        version: 0.0.0-pr293-run537-1-20240610024105(encoding@0.1.13)(graphql@16.8.1)
+        specifier: 0.9.3
+        version: 0.9.3(encoding@0.1.13)(graphql@16.8.1)
       '@graphql-codegen/add':
         specifier: 5.0.2
         version: 5.0.2(graphql@16.8.1)
@@ -3380,8 +3380,8 @@ packages:
   '@eddeee888/gcg-server-config@0.2.1':
     resolution: {integrity: sha512-mrx0/Um1FNLjmvqAUg1+pitDtaAoGE8FS59Msc0YnKbhPNgm9bl3CJG6AQRmCvr5Ks8PE5RLMlXytx1ns7VM5Q==}
 
-  '@eddeee888/gcg-typescript-resolver-files@0.0.0-pr293-run537-1-20240610024105':
-    resolution: {integrity: sha512-BgEL9mGV37zQ5z2AbYNMclNC/UzZerqWAtFvbWFFnT8+ijAj3RoNUS7Kfmr7gzZUag4POtarBiJpXPGpsGP8MQ==}
+  '@eddeee888/gcg-typescript-resolver-files@0.9.3':
+    resolution: {integrity: sha512-54QFBQh/I/rSYB1PaWZhj3uV1VoYgzQxLVAtjBEw9/djEXQ6ysqyBsuvlwWQFKpDj4OtUdmYk883GaOOmb28yg==}
     peerDependencies:
       graphql: ^15.0.0 || ^16.0.0
 
@@ -19070,7 +19070,7 @@ snapshots:
       - graphql
       - supports-color
 
-  '@eddeee888/gcg-typescript-resolver-files@0.0.0-pr293-run537-1-20240610024105(encoding@0.1.13)(graphql@16.8.1)':
+  '@eddeee888/gcg-typescript-resolver-files@0.9.3(encoding@0.1.13)(graphql@16.8.1)':
     dependencies:
       '@eddeee888/gcg-server-config': 0.2.1(encoding@0.1.13)(graphql@16.8.1)
       '@graphql-codegen/add': 5.0.2(graphql@16.8.1)
