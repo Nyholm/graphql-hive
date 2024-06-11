@@ -50,6 +50,8 @@ const config: CodegenConfig = {
             ProjectAccessScope: '../modules/auth/providers/project-access#ProjectAccessScope',
             OrganizationAccessScope:
               '../modules/auth/providers/organization-access#OrganizationAccessScope',
+            SupportTicketPriority: '../shared/entities#SupportTicketPriority',
+            SupportTicketStatus: '../shared/entities#SupportTicketStatus',
           },
           resolversNonOptionalTypename: {
             interfaceImplementingType: true,
